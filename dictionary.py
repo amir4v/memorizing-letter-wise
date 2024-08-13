@@ -1,3 +1,5 @@
+exit()
+
 import json
 dictionary = json.load(open('./dictionary.json', 'rt'))
 _dictionary = {}
