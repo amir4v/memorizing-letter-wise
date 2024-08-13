@@ -1,3 +1,5 @@
+import os
+import sys
 import yaml
 
 import requests as r
@@ -86,7 +88,10 @@ try:
 except Exception as e:
     print(e)
 
-_word = word = pyperclip.paste()
+if len(sys.argv) == 2 and sys.argv[1]:
+    _word = word = sys.argv[1]
+else:
+    _word = word = pyperclip.paste()
 word = word.strip().lower()
 word = word.strip(' `~!@#$%^&*()_+-=[]{};:\'",<.>/?\\')
 
@@ -138,4 +143,5 @@ except Exception as e:
         print(f'"{_word}"')
         print(e, 1)
 
-input('>>>')
+word = input('>>>')
+os.system(f'python C:/Users/Amir/Desktop/memorizing-letter-wise/translation.py {word}')
