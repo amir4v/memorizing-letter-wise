@@ -129,8 +129,10 @@ def print_word(word):
     print('-'*80, '\n\n')
 
 try:
-    word = Word.objects.get(word=word)
+    word, created = Word.objects.get_or_create(word=word)
     print_word(word)
+    if created:
+        raise Exception('created')
 except Exception as e:
     try:
         words = Word.objects.filter(word__icontains=word)
