@@ -1,6 +1,7 @@
 import os
 import sys
 import yaml
+import urllib.parse as url_parser
 
 import requests as r
 
@@ -91,7 +92,7 @@ def get_google_translation(word, url='https://translate-pa.googleapis.com/v1/tra
         ]
     """
     
-    url = url % word
+    url = url % url_parser.quote(word, safe='')
     res = r.get(url)
     raw_json = res.content.decode('utf-8')
     res = res.json()
@@ -103,12 +104,16 @@ def get_google_translation(word, url='https://translate-pa.googleapis.com/v1/tra
         [
             item.get('entry', []) for item in res.get('bilingualDictionary', [])
         ]
-    ][0]
-    words = [word[0] for word in sorted(words, key=lambda x: x[1])]
+    ]
+    if words:
+        words = words[0]
+        words = [word[0] for word in sorted(words, key=lambda x: x[1])]
+    else:
+        words = [sentence['trans'] for sentence in res.get('sentences', [])]
     words = ' . '.join(words)
     
-    # print(translation)
-    # print(words)
+    # print('translation', translation)
+    # print('words', words)
     
     return f'{translation} .. {words}'
 
