@@ -26,3 +26,5 @@ class Word(models.Model):
     batch_definitions = models.TextField() # from a dictionary.json file
     nltk_definitions = models.TextField() # from the nltk library
     nltk_examples = models.TextField() # from the nltk library
+    
+    google_translation = models.TextField() # https://translate-pa.googleapis.com/v1/translate?params.client=gtx&query.source_language=auto&query.target_language=fa&query.display_language=en-US&query.text={text}&key=AIzaSyDLEeFI5OtFBwYBIoK_jj5m32rZK5CkCXA&data_types=TRANSLATION&data_types=SENTENCE_SPLITS&data_types=BILINGUAL_DICTIONARY_FULL
