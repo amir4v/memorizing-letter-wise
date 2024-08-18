@@ -4,6 +4,9 @@ from django.db import models
 class Word(models.Model):
     word = models.TextField(null=False, blank=False, unique=True, db_index=True)
     
+    # How many times i didn't know?
+    tidk = models.IntegerField(default=0)
+    
     # from mymemory.translated: https://api.mymemory.translated.net/get?q={word}&langpair=en|fa
     mymemory_translated_fas = models.TextField()
     
