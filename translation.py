@@ -23,7 +23,7 @@ def get_fa_translations(word, url='https://api.mymemory.translated.net/get?q=%s&
             ' . '.join(matches),
         )
     except Exception as e:
-        print(e)
+        print(e, 'get_fa_translations')
         return (
             False,
             '',
@@ -75,7 +75,7 @@ def get_definitions(word, url='https://api.dictionaryapi.dev/api/v2/entries/en/%
     try:
         return _get_definitions(word, url='https://api.dictionaryapi.dev/api/v2/entries/en/%s')
     except Exception as e:
-        print(e)
+        print(e, 'get_definitions')
         return (
             False,
             '',
@@ -131,6 +131,7 @@ def get_google_translation(word, url='https://translate-pa.googleapis.com/v1/tra
         
         return True, f'{translation} .. {words}'
     except Exception as e:
+        print(e, 'get_google_translation')
         return False, ''
 
 
@@ -142,30 +143,44 @@ def print_word(word):
     print(':nltk-Examples:', f'"{word.nltk_examples}"', '\n\n')
     print('<->', '\n\n')
     
-    flag_g, google_translation = get_google_translation(word)
-    print(':Google-Translation:', google_translation, '\n\n')
+    flag_g, google_translation = get_google_translation(word.word)
+    if flag_g:
+        print(':Google-Translation:', google_translation, '\n\n')
+    else:
+        print(':Google-Translation:', word.google_translation, '\n\n')
     print('<->', '\n\n')
     
     flag_fa, fa_translations = get_fa_translations(word.word)
+    if flag_fa:
+        print(':mymemory_translated_Fas:', f'"{fa_translations}"', '\n\n')
+    else:
+        print(':mymemory_translated_Fas:', f'"{word.fa_translations}"', '\n\n')
     flag_en, phonetics, definitions, synonyms, antonyms, raw_json, raw_yaml = get_definitions(word.word)
-    print(':mymemory_translated_Fas:', f'"{fa_translations}"', '\n\n')
-    print(':dictionaryapi_Phonetics:', f'"{phonetics}"', '\n\n')
-    print(':dictionaryapi_Definitions:', f'"{definitions}"', '\n\n')
-    print(':dictionaryapi_Synonyms:', f'"{synonyms}"', '\n\n')
-    print(':dictionaryapi_Antonyms:', f'"{antonyms}"', '\n\n')
-    # print(':dictionaryapi_Raw_JSON:', f'"{raw_json}"', '\n\n')
-    # print(':dictionaryapi_Raw_YAML:', f'"{raw_yaml}"', '\n\n')
+    if flag_en:
+        print(':dictionaryapi_Phonetics:', f'"{phonetics}"', '\n\n')
+        print(':dictionaryapi_Definitions:', f'"{definitions}"', '\n\n')
+        print(':dictionaryapi_Synonyms:', f'"{synonyms}"', '\n\n')
+        print(':dictionaryapi_Antonyms:', f'"{antonyms}"', '\n\n')
+        # print(':dictionaryapi_Raw_JSON:', f'"{raw_json}"', '\n\n')
+        # print(':dictionaryapi_Raw_YAML:', f'"{raw_yaml}"', '\n\n')
+    else:
+        print(':dictionaryapi_Phonetics:', f'"{word.phonetics}"', '\n\n')
+        print(':dictionaryapi_Definitions:', f'"{word.definitions}"', '\n\n')
+        print(':dictionaryapi_Synonyms:', f'"{word.synonyms}"', '\n\n')
+        print(':dictionaryapi_Antonyms:', f'"{word.antonyms}"', '\n\n')
+        # print(':dictionaryapi_Raw_JSON:', f'"{word.raw_json}"', '\n\n')
+        # print(':dictionaryapi_Raw_YAML:', f'"{word.raw_yaml}"', '\n\n')
     
-    word.google_translation = google_translation
-    word.mymemory_translated_fas = fa_translations
-    word.dictionaryapi_phonetics = phonetics
-    word.dictionaryapi_definitions = definitions
-    word.dictionaryapi_synonyms = synonyms
-    word.dictionaryapi_antonyms = antonyms
-    word.dictionaryapi_raw_json = raw_json
-    word.dictionaryapi_raw_yaml = raw_yaml
     flag = flag_g and flag_fa and flag_en
     if flag:
+        word.google_translation = google_translation
+        word.mymemory_translated_fas = fa_translations
+        word.dictionaryapi_phonetics = phonetics
+        word.dictionaryapi_definitions = definitions
+        word.dictionaryapi_synonyms = synonyms
+        word.dictionaryapi_antonyms = antonyms
+        word.dictionaryapi_raw_json = raw_json
+        word.dictionaryapi_raw_yaml = raw_yaml
         word.save()
     
     print('-'*80, '\n\n')
