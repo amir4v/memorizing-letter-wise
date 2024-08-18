@@ -181,7 +181,8 @@ def print_word(word):
         word.dictionaryapi_antonyms = antonyms
         word.dictionaryapi_raw_json = raw_json
         word.dictionaryapi_raw_yaml = raw_yaml
-        word.save()
+    word.tidk += 1
+    word.save()
     
     print('-'*80, '\n\n')
 
