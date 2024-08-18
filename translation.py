@@ -145,9 +145,9 @@ def print_word(word):
     
     flag_g, google_translation = get_google_translation(word.word)
     if flag_g:
-        print(':Google-Translation:', google_translation, '\n\n')
+        print(':Google-Translation:', f'"{google_translation}"', '\n\n')
     else:
-        print(':Google-Translation:', word.google_translation, '\n\n')
+        print(':Google-Translation:', f'"{word.google_translation}"', '\n\n')
     print('<->', '\n\n')
     
     flag_fa, fa_translations = get_fa_translations(word.word)
