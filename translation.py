@@ -136,6 +136,8 @@ def get_google_translation(word, url='https://translate-pa.googleapis.com/v1/tra
 
 
 def print_word(word):
+    print('---:::The-Word:::---', f'"{word.word}"', '\n\n')
+    
     print(':nltk-Definitions:', f'"{word.nltk_definitions}"', '\n\n')
     print(':nltk-Synonyms:', f'"{word.nltk_synonyms}"', '\n\n')
     print(':nltk-Antonyms:', f'"{word.nltk_antonyms}"', '\n\n')
@@ -183,8 +185,6 @@ def print_word(word):
         word.dictionaryapi_raw_yaml = raw_yaml
     word.tidk += 1
     word.save()
-    
-    print('-'*80, '\n\n')
 
 
 # -----------------------------------------------------------------------------
@@ -195,8 +195,6 @@ if len(sys.argv) == 2 and sys.argv[1]:
 else:
     _word = word = pyperclip.paste()
 word = word.strip(' `~!@#$%^&*()_+-=[]{};:\'",<.>/?\\').lower()
-
-print(':The-Word:', f'"{word}"', '\n\n')
 
 
 try:
@@ -217,5 +215,6 @@ except Exception as e:
         print(e, 1)
 
 
+print('-'*80, '\n\n')
 word = input('>>>')
 os.system(f'python C:/Users/Amir/Desktop/memorizing-letter-wise/translation.py {word}')
