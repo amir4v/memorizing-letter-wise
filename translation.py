@@ -136,7 +136,7 @@ def get_google_translation(word, url='https://translate-pa.googleapis.com/v1/tra
 
 
 def print_word(word):
-    print('---:::The-Word:::---', f'"{word.word}"', '\n\n')
+    print('---:::The-Word:::---', f'"{word.word}" \n {word.dictionaryapi_phonetics}', '\n\n')
     
     print(':nltk-Definitions:', f'"{word.nltk_definitions}"', '\n\n')
     print(':nltk-Synonyms:', f'"{word.nltk_synonyms}"', '\n\n')
