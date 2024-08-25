@@ -147,6 +147,7 @@ def print_word(word):
     
     flag_g, google_translation = get_google_translation(word.word)
     if flag_g:
+        word.google_translation = google_translation
         print(':Google-Translation:', f'"{google_translation}"', '\n\n')
     else:
         print(':Google-Translation:', f'"{word.google_translation}"', '\n\n')
@@ -154,11 +155,18 @@ def print_word(word):
     
     flag_fa, fa_translations = get_fa_translations(word.word)
     if flag_fa:
+        word.mymemory_translated_fas = fa_translations
         print(':mymemory_translated_Fas:', f'"{fa_translations}"', '\n\n')
     else:
-        print(':mymemory_translated_Fas:', f'"{word.fa_translations}"', '\n\n')
+        print(':mymemory_translated_Fas:', f'"{word.mymemory_translated_fas}"', '\n\n')
     flag_en, phonetics, definitions, synonyms, antonyms, raw_json, raw_yaml = get_definitions(word.word)
     if flag_en:
+        word.dictionaryapi_phonetics = phonetics
+        word.dictionaryapi_definitions = definitions
+        word.dictionaryapi_synonyms = synonyms
+        word.dictionaryapi_antonyms = antonyms
+        word.dictionaryapi_raw_json = raw_json
+        word.dictionaryapi_raw_yaml = raw_yaml
         print(':dictionaryapi_Phonetics:', f'"{phonetics}"', '\n\n')
         print(':dictionaryapi_Definitions:', f'"{definitions}"', '\n\n')
         print(':dictionaryapi_Synonyms:', f'"{synonyms}"', '\n\n')
@@ -166,23 +174,13 @@ def print_word(word):
         # print(':dictionaryapi_Raw_JSON:', f'"{raw_json}"', '\n\n')
         # print(':dictionaryapi_Raw_YAML:', f'"{raw_yaml}"', '\n\n')
     else:
-        print(':dictionaryapi_Phonetics:', f'"{word.phonetics}"', '\n\n')
-        print(':dictionaryapi_Definitions:', f'"{word.definitions}"', '\n\n')
-        print(':dictionaryapi_Synonyms:', f'"{word.synonyms}"', '\n\n')
-        print(':dictionaryapi_Antonyms:', f'"{word.antonyms}"', '\n\n')
-        # print(':dictionaryapi_Raw_JSON:', f'"{word.raw_json}"', '\n\n')
-        # print(':dictionaryapi_Raw_YAML:', f'"{word.raw_yaml}"', '\n\n')
+        print(':dictionaryapi_Phonetics:', f'"{word.dictionaryapi_phonetics}"', '\n\n')
+        print(':dictionaryapi_Definitions:', f'"{word.dictionaryapi_definitions}"', '\n\n')
+        print(':dictionaryapi_Synonyms:', f'"{word.dictionaryapi_synonyms}"', '\n\n')
+        print(':dictionaryapi_Antonyms:', f'"{word.dictionaryapi_antonyms}"', '\n\n')
+        # print(':dictionaryapi_Raw_JSON:', f'"{word.dictionaryapi_raw_json}"', '\n\n')
+        # print(':dictionaryapi_Raw_YAML:', f'"{word.dictionaryapi_raw_yaml}"', '\n\n')
     
-    flag = flag_g and flag_fa and flag_en
-    if flag:
-        word.google_translation = google_translation
-        word.mymemory_translated_fas = fa_translations
-        word.dictionaryapi_phonetics = phonetics
-        word.dictionaryapi_definitions = definitions
-        word.dictionaryapi_synonyms = synonyms
-        word.dictionaryapi_antonyms = antonyms
-        word.dictionaryapi_raw_json = raw_json
-        word.dictionaryapi_raw_yaml = raw_yaml
     word.tidk += 1
     word.save()
 
