@@ -15,6 +15,7 @@ from rest_framework.renderers import JSONRenderer, TemplateHTMLRenderer
 
 from .models import Word
 from .first_letter import letterize, mini_letterize
+from .serializers import WordModelSerializer
 
 
 class Words(View):
@@ -47,8 +48,13 @@ class IndexView(View):
     def get(self, request):
         return render(request, 'app/index.html')
     
-    @csrf_exempt
     def post(self, request):
+        word = request.POST['word'].strip().lower()
+        words = Word.objects.filter(word__icontains=word)[:100]
+        serializer = WordModelSerializer(words, many=True)
+        return JsonResponse(serializer.data, safe=False)
+    
+    def _post(self, request):
         text = request.POST['text']
         separator = '\n'
         parts = 3

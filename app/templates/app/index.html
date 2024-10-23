@@ -3,35 +3,53 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Letterize-Memorize</title>
+    <title>Word</title>
+    <style>
+        * {
+            font-family: 'Vazir Code';
+            font-size: 1.1em;
+        }
+    </style>
+    <script src="https://code.jquery.com/jquery-3.7.1.min.js" integrity="sha256-/JqT3SQfawRcv/BIHPThkBvs0OEvtFFmqPF/lYI/Cxo=" crossorigin="anonymous"></script>
+    <script>
+        function search(e){
+            value = $(e).val();
+            $.post({url: '/', data: {word: value}}, function(data){
+                str_value = ``;
+                for(i=0; i<data.length; i++){
+                    str_value += `<div>word: ${data[i].word}</div>
+                    <br>
+                    <div>phonetics:<br>
+                        ${data[i].phonetics}
+                    </div>
+                    <br>
+                    <div>synonyms:<br>
+                        ${data[i].synonyms}
+                    </div>
+                    <br>
+                    <div>antonyms:<br>
+                        ${data[i].antonyms}
+                    </div>
+                    <br>
+                    <div>definitions:<br>
+                        ${data[i].definitions}
+                    </div>
+                    <br>
+                    <div>persian:<br>
+                        ${data[i].persian}
+                    </div>
+                    <br><br>
+                    <hr>
+                    <br><br>`;
+                }
+                $('#list').html(str_value);
+            });
+        }
+    </script>
 </head>
-<body style="background-color: beige;">
-    <hr>
-    <form action="/" method="post">
-        {% csrf_token %}
-        <textarea name="text" cols="80" rows="5"></textarea>
-        <br>
-        <input type="submit">
-    </form>
-    <hr>
-    <div style="font-family: 'Vazir Code'; margin: 1%; padding: 1%;">
-        {% for word in results %}
-            <span alt="{{ word.word }}" title="{{ word.word }}"
-                style="background-color: rgb(216, 216, 216); padding: 1%; width: 10em; border-bottom: 1px solid gray; font-size: 2em; font-weight: bold;"
-                >{{ word.letterized_3 }}</span>
-            <span>
-                <b>
-                    <br>
-                    definition: {{ word.definition }}
-                    <br>
-                    synonyms: {{ word.synonyms }}
-                    <br>
-                    antonyms: {{ word.antonyms }}
-                </b>
-            </span>
-            <br><br><br>
-        {% endfor %}
-    </div>
-    <hr>
+<body style="margin: 1%;">
+    <input type="text" name="word" id="word" onkeyup="search(this)">
+    <br>
+    <div id="list"></div>
 </body>
 </html>
