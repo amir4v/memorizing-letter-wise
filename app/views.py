@@ -50,7 +50,16 @@ class IndexView(View):
     
     def post(self, request):
         word = request.POST['word'].strip().lower()
-        words = Word.objects.filter(word__icontains=word)[:100]
+        print(word)
+        
+        if not word:
+            return JsonResponse([], safe=False)
+        words = Word.objects.filter(
+                Q(word__startswith=word) |
+                Q(word__icontains=word) |
+                Q(word__endswith=word)
+            )[:100]
+        
         serializer = WordModelSerializer(words, many=True)
         return JsonResponse(serializer.data, safe=False)
     
